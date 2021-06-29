@@ -14,33 +14,58 @@ namespace ConsoleAppOOP
                 InitialisationWolfMan();
                 InitAnimals();
                 InitDogs();
-                List<Animal> animals = new List<Animal>();
-                animals = InitAnimalList(animals);
-
-                Console.WriteLine("");
-                Console.WriteLine("Alla djur i listan: ");
-                foreach (var item in animals)
-                {
-                    Console.WriteLine($"Stats: {item.Stats()} Typ: {item.GetType()}");
-                }
-                Console.WriteLine("");
-                Console.WriteLine("Alla hundar i listan: ");
-                foreach (var item in animals)
-                {
-                    if (item.GetType().Equals(typeof(Dog)))
-                    {
-                        // Dog d = (Dog)item.GetType();
-                        //if (item is Dog) { Console.WriteLine(); ((Dog)item).Eats(); }
-                        Console.WriteLine($"Stats: {item.Stats()} Typ: {item.GetType()} Eats: {(Dog)item}");
-                        Console.WriteLine($"Dog äter: {((Dog)item).Eats()}"); 
-                    }
-                }
+                WorkDogs();
+                InitUserErrors();
             }
             catch (ArgumentException e)
             {
                 Console.WriteLine("{0} Ett fel har har inträffat.", e);
             }
 
+        }
+
+        private static void WorkDogs()
+        {
+            List<Animal> animals = new List<Animal>();
+            animals = InitAnimalList(animals);
+
+            Console.WriteLine("");
+            Console.WriteLine("Alla djur i listan: ");
+            foreach (var item in animals)
+            {
+                Console.WriteLine($"Stats: {item.Stats()} Typ: {item.GetType()}");
+            }
+            Console.WriteLine("");
+            Console.WriteLine("Alla hundar i listan: ");
+            foreach (var item in animals)
+            {
+                if (item.GetType().Equals(typeof(Dog)))
+                {
+                    Console.WriteLine($"Stats: {item.Stats()} Eats: {((Dog)item).Eats()} Typ: {item.GetType()}");
+                    Console.WriteLine($"{item.Name} äter: {((Dog)item).Eats()}");
+                }
+            }
+        }
+
+        private static void InitUserErrors()
+        {
+            List<UserError> errors = new List<UserError>();
+            TextInputError tie = new TextInputError();
+            errors.Add(tie);
+            NumericInputError nie = new NumericInputError();
+            errors.Add(nie);
+            DivideByZeroError div = new DivideByZeroError();
+            errors.Add(div);
+            NotInstanciatedError not = new NotInstanciatedError();
+            errors.Add(not);
+            ReturnPathError ret = new ReturnPathError();
+            errors.Add(ret);
+            Console.WriteLine();
+            Console.WriteLine("Input Errors");
+            foreach (var item in errors)
+            {
+                Console.WriteLine(item.UEMessage());
+            }
         }
 
         private static void InitDogs()
